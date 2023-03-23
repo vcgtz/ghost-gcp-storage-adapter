@@ -1,5 +1,8 @@
 # ghost-gcp-storage-adapter
-Ghost adapter to store images into Google Cloud Storage
+Ghost adapter to store images into Google Cloud Storage.
+
+![npm](https://img.shields.io/npm/v/ghost-gcp-storage-adapter?color=blue&label=NPM%20Version)
+![ghost](https://img.shields.io/badge/Ghost%20Version-5.x-blue)
 
 ## Instalation
 ### Google Cloud Storage Configuration
@@ -8,6 +11,7 @@ Ghost adapter to store images into Google Cloud Storage
 3. Create a new Service Account in `IAM & Admin > Service Accounts`
 4. Create new credentials for your service account in `IAM & Admin > Service Accounts > <Your Service Account> > Actions > Manage Keys > Add Key`
 5. Download your credentials as a JSON file and renamed it to `credentials.json`
+6. Create a bucket to store your files (use Fine-grained access control)
 
 ### Server Configuration
 1. Go to your Ghost instalation folder (the folder where you have the files `config.production.json` or `config.development.json`):
@@ -31,5 +35,17 @@ cp -r node_modules/ghost-gcp-storage-adapter content/adapters/storage/ghost-gcp-
 ```
 
 5. Copy your `credentials.json` file into `content/adapters/storage/ghost-gcp-storage-adapter`
+
+7. Add the next configuration to your `config.production.json` file:
+```json
+"storage": {
+  "active": "ghost-gcp-storage-adapter",
+  "ghost-gcp-storage-adapter": {
+    "projectId": "<your_google_cloud_project_id>",
+    "keyFilename": "<your_ghost_instalation_folder>/content/adapters/storage/ghost-gcp-storage-adapter/credentials.json",
+    "bucketName": "<your_bucket_name>"
+  }
+}
+```
 
 6. Restart Ghost
