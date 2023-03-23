@@ -1,0 +1,35 @@
+{
+  "name": "ghost-gcp-storage-adapter",
+  "version": "0.0.1",
+  "description": "Ghost adapter to store images into Google Cloud Storage",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vcgtz/ghost-gcp-storage-adapter.git"
+  },
+  "keywords": [
+    "ghost",
+    "ghostjs",
+    "gcp",
+    "google",
+    "cloud",
+    "google",
+    "cloud",
+    "storage",
+    "buckets",
+    "images"
+  ],
+  "author": "Vicente Gutiérrez (@vcgtz)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vcgtz/ghost-gcp-storage-adapter/issues"
+  },
+  "homepage": "https://github.com/vcgtz/ghost-gcp-storage-adapter#readme",
+  "dependencies": {
+    "@google-cloud/storage": "^6.9.4",
+    "ghost-storage-base": "^1.0.0"
+  }
+}
