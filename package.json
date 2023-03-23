@@ -1,6 +1,6 @@
 {
   "name": "ghost-gcp-storage-adapter",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Ghost adapter to store images into Google Cloud Storage",
   "main": "index.js",
   "scripts": {
