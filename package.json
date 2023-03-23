@@ -30,7 +30,6 @@
   "homepage": "https://github.com/vcgtz/ghost-gcp-storage-adapter#readme",
   "dependencies": {
     "@google-cloud/storage": "^6.9.4",
-    "@tryghost/logging": "^2.4.1",
     "ghost-storage-base": "^1.0.0"
   }
 }
