@@ -14,42 +14,39 @@ class GoogleCloudStorage extends BaseAdapter {
     this.bucket = this.storage.bucket(config.bucketName);
   }
 
-  save(file) {
-    return new Promise((resolve, reject) => {
-      const options = {
-        destination: file.name,
-        resumable: false,
-        public: true,
-      };
+  async save(file) {
+    const options = {
+      destination: file.name,
+      resumable: false,
+      public: true,
+      metadata: {
+        cacheControl: `public, max-age=2678400`
+      },
+    };
 
-      this.bucket.upload(file.path, options)
-        .then(data => {
-          resolve(data.shift().publicUrl());
-        })
-        .catch(err => reject(err));
-    });
+    try {
+      const [uploadedFile] = await this.bucket.upload(file.path, options);
+
+      return uploadedFile.publicUrl();
+    } catch (err) {
+      console.error(err);
+    }
   }
   
-  exists(fileName) {
-    return new Promise((resolve, reject) => {
-      this.bucket.file(fileName).exists()
-        .then(exists => resolve(exists))
-        .catch(err => reject(err));
-    });
+  async exists(fileName) {
+    const [exists] = await this.bucket.file(fileName).exists();
+
+    return exists;
   }
   
   serve() {
     return (req, res, next) => next();
   }
   
-  delete(fileName) {
-    return new Promise((resolve, reject) => {
-      this.bucket.file(fileName).delete()
-        .then(() => resolve())
-        .catch(err => reject(err));
-    });
+  async delete(fileName) {
+    return await this.bucket.file(fileName).delete();
   }
-  
+
   read(options) {
     return this.bucket.file(options.path).createReadStream();
   }
