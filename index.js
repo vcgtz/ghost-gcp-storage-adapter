@@ -4,14 +4,13 @@ const BaseAdapter = require('ghost-storage-base');
 class GoogleCloudStorage extends BaseAdapter {
   constructor(config) {
     super();
-
     this.config = config;
     this.storage = new Storage({
-      projectId: config.projectId,
-      keyFilename: config.keyFilename
+      projectId: this.config.projectId,
+      keyFilename: this.config.keyFilename
     });
 
-    this.bucket = this.storage.bucket(config.bucketName);
+    this.bucket = this.storage.bucket(this.config.bucketName);
   }
 
   async save(file) {
