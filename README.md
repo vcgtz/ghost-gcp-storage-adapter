@@ -77,3 +77,6 @@ NODE_ENV=development ghost run
 ```
 
 With this you'be able to see the logs in real time and test and debug this package.
+
+## :page_with_curl: License
+[MIT](https://github.com/vcgtz/ghost-gcp-storage-adapter/blob/main/LICENSE)
