@@ -1,5 +1,5 @@
-const { Storage } = require('@google-cloud/storage');
-const BaseAdapter = require('ghost-storage-base');
+const { Storage } = require("@google-cloud/storage");
+const BaseAdapter = require("ghost-storage-base");
 
 class GoogleCloudStorage extends BaseAdapter {
   constructor(config) {
@@ -7,7 +7,7 @@ class GoogleCloudStorage extends BaseAdapter {
     this.config = config;
     this.storage = new Storage({
       projectId: this.config.projectId,
-      keyFilename: this.config.keyFilename
+      keyFilename: this.config.keyFilename,
     });
 
     this.bucket = this.storage.bucket(this.config.bucketName);
@@ -17,9 +17,8 @@ class GoogleCloudStorage extends BaseAdapter {
     const options = {
       destination: file.name,
       resumable: false,
-      public: true,
       metadata: {
-        cacheControl: `public, max-age=2678400`
+        cacheControl: `public, max-age=2678400`,
       },
     };
 
@@ -31,17 +30,17 @@ class GoogleCloudStorage extends BaseAdapter {
       console.error(err);
     }
   }
-  
+
   async exists(fileName) {
     const [exists] = await this.bucket.file(fileName).exists();
 
     return exists;
   }
-  
+
   serve() {
     return (req, res, next) => next();
   }
-  
+
   async delete(fileName) {
     return await this.bucket.file(fileName).delete();
   }
