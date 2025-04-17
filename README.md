@@ -1,5 +1,5 @@
 # ghost-gcp-storage-adapter
-Ghost adapter to store images into Google Cloud Storage.
+Ghost adapter to store images, media files, and other files into Google Cloud Storage.
 
 ![npm](https://img.shields.io/npm/v/ghost-gcp-storage-adapter?color=blue&label=NPM%20Version)
 ![ghost](https://img.shields.io/badge/Ghost%20Version-5.x-blue)
@@ -36,10 +36,12 @@ cp -r node_modules/ghost-gcp-storage-adapter content/adapters/storage/ghost-gcp-
 
 5. Copy your `credentials.json` file into `content/adapters/storage/ghost-gcp-storage-adapter`
 
-7. Add the next configuration to your `config.production.json` file:
+7. Add the following configuration to your `config.production.json` file:
 ```json
 "storage": {
-  "active": "ghost-gcp-storage-adapter",
+  "active": "ghost-gcp-storage-adapter",    // For images
+  "media": "ghost-gcp-storage-adapter",     // For video and audio files
+  "files": "ghost-gcp-storage-adapter",     // For other file types
   "ghost-gcp-storage-adapter": {
     "projectId": "<your_google_cloud_project_id>",
     "keyFilename": "<your_ghost_instalation_folder>/content/adapters/storage/ghost-gcp-storage-adapter/credentials.json",
@@ -48,7 +50,65 @@ cp -r node_modules/ghost-gcp-storage-adapter content/adapters/storage/ghost-gcp-
 }
 ```
 
+Storage Configuration Options:
+- `active`: Controls the storage adapter for images
+- `media`: Controls the storage adapter for video and audio files
+- `files`: Controls the storage adapter for other file types
+
 6. Restart Ghost
+
+### Docker Deployment
+If you're running Ghost in Docker, follow these steps:
+
+1. Clone and prepare the adapter:
+```bash
+# Clone this repository
+git clone https://github.com/vcgtz/ghost-gcp-storage-adapter.git
+cd ghost-gcp-storage-adapter
+
+# Install dependencies
+npm install
+```
+
+2. Update your `docker-compose.yml` to mount the necessary volumes:
+```yaml
+version: '3'
+services:
+  ghost:
+    image: ghost:5-alpine
+    volumes:
+      # Mount config.production.json
+      - ./config.production.json:/var/lib/ghost/config.production.json
+      # Mount the storage adapter
+      - ./ghost-gcp-storage-adapter:/var/lib/ghost/content/adapters/storage/ghost-gcp-storage-adapter
+      # Mount credentials.json (ensure it's in your project directory)
+      - ./credentials.json:/var/lib/ghost/content/adapters/storage/ghost-gcp-storage-adapter/credentials.json
+    // ... other configurations ...
+```
+
+3. Ensure your `config.production.json` includes the storage configuration:
+```json
+{
+  // ... other configurations ...
+  "storage": {
+    "active": "ghost-gcp-storage-adapter",    // For images
+    "media": "ghost-gcp-storage-adapter",     // For video and audio files
+    "files": "ghost-gcp-storage-adapter",     // For other file types
+    "ghost-gcp-storage-adapter": {
+      "projectId": "<your_google_cloud_project_id>",
+      "keyFilename": "/var/lib/ghost/content/adapters/storage/ghost-gcp-storage-adapter/credentials.json",
+      "bucketName": "<your_bucket_name>"
+    }
+  }
+}
+```
+
+4. Start your Docker containers:
+```bash
+docker-compose up -d
+```
+
+Note: Make sure the file permissions are correct and the credentials.json file is accessible within the container.
 
 ### Configuration for development
 If you want to contribute or test this adapter, you can use it locally by following the next instructions:
